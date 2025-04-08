@@ -1,11 +1,22 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+/**
+ * @copyright 2024 codewithsadee
+ * @license Apache-2.0
+ * @description Main entry point for the app
+ */
 
-import App from './App.tsx';
-import './index.css';
+// node_modules
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router";
 
-createRoot(document.getElementById('root')!).render(
+// Routes
+import router from "@/routes";
+
+// CSS link
+import "./index.css";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>,
 );

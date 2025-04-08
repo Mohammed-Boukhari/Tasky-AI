@@ -4,6 +4,9 @@ export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+    },
     extend: {
       borderColor: ({ theme }) => ({
         // Map 'border' class to CSS variable
