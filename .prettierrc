@@ -1,13 +1,13 @@
-{
+{ 
     "semi": true,
     "singleQuote": false,
+    "singleAttributePerLine": true,
     "jsxSingleQuote": true,
     "printWidth": 80,
     "tabWidth": 2,
     "useTabs": false,
     "bracketSpacing": true,
     "bracketSameLine": false,
-    "singleAttributePerLine": true,
     "arrowParens": "always",
     "endOfLine": "lf",
     "overrides": [
