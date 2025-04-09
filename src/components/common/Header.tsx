@@ -8,7 +8,7 @@
 import { Link } from "react-router";
 
 // components
-import Logo from "@/components/Logo";
+import Logo from "@/components/ui/Logo";
 
 // UI
 import { Button } from "@/components/ui/button";
