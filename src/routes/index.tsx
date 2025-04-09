@@ -10,6 +10,9 @@ import { createBrowserRouter } from "react-router";
 // TODO: Pages
 import Home from "@/pages/Home";
 
+// Error boundary page
+import RootErrorBoundary from "@/pages/error/RootErrorBoundary"; 
+
 // TODO: Layouts
 import RootLayout from "@/layouts/RootLayout";
 
@@ -27,6 +30,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <RootErrorBoundary />,
     children: rootRouteChildren,
   },
 ]);
