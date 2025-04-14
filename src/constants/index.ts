@@ -1,5 +1,5 @@
 /**
- * @copyright 2025 codewithsadee
+ * @copyright 2025 Neurobit
  * @license Apache-2.0
  * @description Constants for the app
  */
@@ -10,19 +10,19 @@ import { Calendar1, CircleCheck, CalendarDays, Inbox } from "lucide-react";
 
 export const SOCIAL_LINKS = [
   {
-    href: "https://youtube.com/codewithsadee",
+    href: "https://youtube.com/Neurobit",
     label: "YouTube",
   },
   {
-    href: "https://linkedin.com/in/codewithsadee",
+    href: "https://linkedin.com/in/Neurobit",
     label: "LinkedIn",
   },
   {
-    href: "https://github.com/codewithsadee",
+    href: "https://github.com/Neurobit",
     label: "GitHub",
   },
   {
-    href: "https://instagram.com/codewithsadee",
+    href: "https://instagram.com/Neurobit",
     label: "Instagram",
   },
 ] as const;

@@ -1,5 +1,5 @@
 /**
- * @copyright 2024 codewithsadee
+ * @copyright 2024 Neurobit
  * @license Apache-2.0
  * @description Main entry point for the app
  */

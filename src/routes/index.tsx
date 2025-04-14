@@ -1,17 +1,18 @@
 /**
- * @copyright 2025 codewithsadee
+ * @copyright 2025 Neurobit
  * @license Apache-2.0
  * @description Router configuration for the app
+ *
  */
 
 // node_modules
 import { createBrowserRouter } from "react-router";
-
 // TODO: Pages
-import Home from "@/pages/Home";
+import Home from "@/pages/home/Home";
 import Register from "@/pages/auth/Register";
 import Login from "@/pages/auth/Login";
-import AuthSync from "@/pages/AuthSync";
+import AuthSync from "@/pages/auth/AuthSync";
+import Inbox from "@/pages/app/Inbox";
 
 // Error boundary page
 import RootErrorBoundary from "@/pages/error/RootErrorBoundary";
@@ -42,6 +43,12 @@ const rootRouteChildren: RouteObject[] = [
   },
 ];
 
+const AppRouteChildren: RouteObject[] = [
+  {
+    path: "inbox",
+    element: <Inbox />,
+  },
+];
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,6 +59,7 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <AppLayout />,
+    children: AppRouteChildren,
   },
 ]);
 
