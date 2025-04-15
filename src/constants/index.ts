@@ -5,8 +5,7 @@
  */
 
 // Node modules
-
-import { Calendar1, CircleCheck, CalendarDays, Inbox } from "lucide-react";
+import { Calendar1, CircleCheck, CalendarDays, Inbox } from "lucide-react"; // icon library
 
 export const SOCIAL_LINKS = [
   {
