@@ -34,6 +34,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import TaskFormDialog from "@/components/ui/TaskFormDialog";
 
 // Constants
 import { SIDEBAR_LINKS } from "@/constants";
@@ -59,9 +60,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {/* Task Create button */}
               <SidebarMenuItem>
-                <SidebarMenuButton className='!text-primary'>
-                  <CirclePlus /> Add task
-                </SidebarMenuButton>
+                <TaskFormDialog>
+                  <SidebarMenuButton className='!text-primary'>
+                    <CirclePlus /> Add task
+                  </SidebarMenuButton>
+                </TaskFormDialog>
               </SidebarMenuItem>
 
               {/* Sidebar Links */}
