@@ -4,6 +4,13 @@
  * @description Task form component for the app
  */
 
+// Node modules
+import { useState, useEffect, useCallback } from "react";
+import * as chrono from "chrono-node";
+
+// Custom modules
+import { formatCustomDate, getTaskDueDateColorClass, cn } from "@/lib/utils";
+
 // components
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -40,7 +47,69 @@ import {
   SendHorizonal as SendHorizonalIcon,
 } from "lucide-react";
 
-const TaskForm = () => {
+// Types
+import type { ClassValue } from "clsx";
+import type { TaskForm } from "@/types/type.type";
+
+type TaskFormProps = {
+  defaultFormaData?: TaskForm;
+  className?: ClassValue;
+  mode?: "create" | "edit";
+  onCancel?: () => void;
+  onSubmit?: (formData: TaskForm) => void;
+};
+
+const DEFAULT_FORM_DATA: TaskForm = {
+  content: "",
+  due_date: null,
+  project: null,
+};
+
+const TaskForm: React.FC<TaskFormProps> = ({
+  defaultFormaData = DEFAULT_FORM_DATA,
+  className,
+  mode,
+  onCancel,
+  onSubmit,
+}) => {
+  const [taskContent, setTaskContent] = useState(defaultFormaData.content);
+  const [dueDate, setDueDate] = useState(defaultFormaData.due_date);
+  const [projectId, setProjectId] = useState(defaultFormaData.project);
+
+  const [projectName, setProjectName] = useState<string>("");
+  const [projectColorHex, setprojectColorHex] = useState<string>("");
+
+  const [dueDateOpen, setDueDateOpen] = useState<boolean>(false);
+  const [projectOpen, setProjectOpen] = useState<boolean>(false);
+
+  const [formData, setFormData] = useState<TaskForm>(defaultFormaData);
+
+  useEffect(() => {
+    setFormData((prevFormaData) => ({
+      ...prevFormaData,
+      content: taskContent,
+      due_date: dueDate,
+      project: projectId,
+    }));
+  }, [taskContent, dueDate, projectId]);
+
+  useEffect(() => {
+    const chronoParsed = chrono.parse(taskContent);
+
+    if (chronoParsed.length) {
+      const lastDate = chronoParsed[chronoParsed.length - 1];
+      setDueDate(lastDate.date());
+    }
+  }, [taskContent]);
+
+  const handleSubmit = useCallback(() => {
+    if (!taskContent) return;
+
+    if (onSubmit) onSubmit(formData);
+
+    setTaskContent("");
+  }, [taskContent, onsubmit, formData]);
+
   return (
     <Card className='focus-within:border-foreground/30'>
       <CardContent className='p-2'>
@@ -48,16 +117,24 @@ const TaskForm = () => {
           className='!border-0 !ring-0 mb-2 p-1'
           placeholder='After finishing the project, Take a tour'
           autoFocus
+          value={taskContent}
+          onInput={(e) => setTaskContent(e.currentTarget.value)}
         />
-        <div className='ring-1 ring-border rounded-md max-w-ma '>
-          <Popover>
+        <div className='ring-1 ring-border rounded-md max-w-max'>
+          <Popover
+            open={dueDateOpen}
+            onOpenChange={setDueDateOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 type='button'
                 variant='ghost'
                 size='sm'
+                className={cn(getTaskDueDateColorClass(dueDate, false))}
               >
-                <CalendarIcon /> Due date
+                <CalendarIcon />
+
+                {dueDate ? formatCustomDate(dueDate) : "Due date"}
               </Button>
             </PopoverTrigger>
 
@@ -66,40 +143,53 @@ const TaskForm = () => {
                 mode='single'
                 disabled={{ before: new Date() }} // Disable past dates
                 initialFocus
+                onSelect={(selected) => {
+                  setDueDate(selected || null);
+                  setDueDateOpen(false);
+                }}
               />
             </PopoverContent>
           </Popover>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant='ghost'
-                size='sm'
-                className='px-2 -sm-2'
-                aria-label='Remove sue date'
-              >
-                <XIcon /> {/* Clear */}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent
-              side='top'
-              className='w-auto'
-            >
-              <p className='text-sm'>Remove due date</p>
-            </TooltipContent>
-          </Tooltip>
+          {dueDate && (
+            <>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='px-2 -sm-2'
+                    aria-label='Remove sue date'
+                    onClick={() => setDueDate(null)}
+                  >
+                    <XIcon /> {/* Clear */}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent
+                  side='top'
+                  className='w-auto'
+                >
+                  <p className='text-sm'>Remove due date</p>
+                </TooltipContent>
+              </Tooltip>
+            </>
+          )}
         </div>
       </CardContent>
 
       <Separator />
 
       <CardFooter className='items-center grid grid-cols-[minmax(0,1fr),max-content] gap-2 p-2'>
-        <Popover modal>
+        <Popover
+          open={projectOpen}
+          onOpenChange={setProjectOpen}
+          modal
+        >
           <PopoverTrigger asChild>
             <Button
               variant='ghost'
               role="'combobox"
-              aria-expanded={false}
+              aria-expanded={projectOpen}
               className='max-w-max'
             >
               <InboxIcon /> <span>Inbox</span> <ChevronDownIcon />
@@ -169,14 +259,22 @@ const TaskForm = () => {
         </Popover>
 
         <div className='flex items-center gap-2'>
-          <Button variant='secondary'>
+          <Button
+            variant='secondary'
+            onClick={onCancel}
+          >
             <span className='max-md:hidden'>Cancel</span>
 
             <XIcon className='md:hidden' />
           </Button>
 
-          <Button>
-            <span className='max-md:hidden'>Add task</span>
+          <Button
+            disabled={!taskContent}
+            onClick={handleSubmit}
+          >
+            <span className='max-md:hidden'>
+              {mode === "create" ? "Add task" : "Save"}
+            </span>
 
             <SendHorizonalIcon className='md:hidden' />
           </Button>

@@ -21,6 +21,9 @@ import RootErrorBoundary from "@/pages/error/RootErrorBoundary";
 import RootLayout from "@/layouts/RootLayout";
 import AppLayout from "@/layouts/AppLayout";
 
+// Actions
+import appAction from "@/routes/actions/appAction";
+
 // types
 import type { RouteObject } from "react-router";
 
@@ -60,6 +63,7 @@ const router = createBrowserRouter([
     path: "/app",
     element: <AppLayout />,
     children: AppRouteChildren,
+    action: appAction,
   },
 ]);
 
